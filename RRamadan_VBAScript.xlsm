@@ -1,0 +1,58 @@
+Sub StockExhangeTotal()
+
+'Set variables
+
+Dim ws As Worksheet
+
+For Each ws In Worksheets
+
+Dim Ticker As String
+Dim Total As Double
+Dim LastRow As Double
+Dim Summary_Table_Row As Integer
+
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+Total = 0
+Summary_Table_Row = 2
+
+  ' Loop through volume by row
+  For i = 2 To LastRow
+
+    ' Check by ticker for the same name, if it is not...
+    If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+
+      ' Set the ticker name
+     Ticker = ws.Cells(i, 1).Value
+
+      ' Add to the Volume Total
+    Total = Total + ws.Cells(i, 7).Value
+
+      ' Print the Ticker in the Summary Table
+        ws.Range("J" & Summary_Table_Row).Value = Ticker
+
+      ' Print the Volume Amount to the Summary Table
+        ws.Range("K" & Summary_Table_Row).Value = Total
+
+      ' Add one to the summary table row
+        Summary_Table_Row = Summary_Table_Row + 1
+      
+      ' Reset the Volume Total
+      Total = 0
+      
+    ' If the cell immediately following a row is the same ticker...
+    Else
+
+      ' Add to the Volume Total
+     Total = Total + ws.Cells(i, 7).Value
+
+        
+        End If
+         
+     Next i
+
+ Next
+
+End Sub
+
+
+
